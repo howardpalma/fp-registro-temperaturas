@@ -1,1 +1,0 @@
-# fp-registro-temperaturas

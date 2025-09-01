@@ -1,0 +1,67 @@
+import java.util.Random;
+
+public class RastreadorTemperaturas {
+    public static void main(String[] args) {
+        // Definir ciudades, días y semanas
+        String[] ciudades = {"Madrid", "Barcelona"};
+        String[] diasSemana = {"Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"};
+        int numSemanas = 2;
+        
+        // Crear matriz 3D: [ciudades][días][semanas]
+        double[][][] temperaturas = new double[ciudades.length][diasSemana.length][numSemanas];
+        
+        // Llenar la matriz con temperaturas aleatorias (entre 5°C y 35°C)
+        Random random = new Random();
+        for (int ciudad = 0; ciudad < ciudades.length; ciudad++) {
+            for (int dia = 0; dia < diasSemana.length; dia++) {
+                for (int semana = 0; semana < numSemanas; semana++) {
+                    temperaturas[ciudad][dia][semana] = 5 + random.nextDouble() * 30;
+                }
+            }
+        }
+        
+        // Mostrar todas las temperaturas
+        System.out.println("=== TEMPERATURAS REGISTRADAS ===");
+        for (int ciudad = 0; ciudad < ciudades.length; ciudad++) {
+            System.out.println("\n--- " + ciudades[ciudad] + " ---");
+            for (int semana = 0; semana < numSemanas; semana++) {
+                System.out.println("Semana " + (semana + 1) + ":");
+                for (int dia = 0; dia < diasSemana.length; dia++) {
+                    System.out.printf("  %-12s: %.1f°C%n", 
+                            diasSemana[dia], temperaturas[ciudad][dia][semana]);
+                }
+            }
+        }
+        
+        // Calcular y mostrar promedios por ciudad y semana
+        System.out.println("\n=== PROMEDIOS DE TEMPERATURA ===");
+        for (int ciudad = 0; ciudad < ciudades.length; ciudad++) {
+            System.out.println("\n--- " + ciudades[ciudad] + " ---");
+            for (int semana = 0; semana < numSemanas; semana++) {
+                double suma = 0;
+                for (int dia = 0; dia < diasSemana.length; dia++) {
+                    suma += temperaturas[ciudad][dia][semana];
+                }
+                double promedio = suma / diasSemana.length;
+                System.out.printf("Semana %d: %.2f°C%n", (semana + 1), promedio);
+            }
+        }
+        
+        // Calcular y mostrar promedios generales por ciudad
+        System.out.println("\n=== PROMEDIOS GENERALES POR CIUDAD ===");
+        for (int ciudad = 0; ciudad < ciudades.length; ciudad++) {
+            double sumaTotal = 0;
+            int totalRegistros = 0;
+            
+            for (int semana = 0; semana < numSemanas; semana++) {
+                for (int dia = 0; dia < diasSemana.length; dia++) {
+                    sumaTotal += temperaturas[ciudad][dia][semana];
+                    totalRegistros++;
+                }
+            }
+            
+            double promedioGeneral = sumaTotal / totalRegistros;
+            System.out.printf("%s: %.2f°C%n", ciudades[ciudad], promedioGeneral);
+        }
+    }
+}
